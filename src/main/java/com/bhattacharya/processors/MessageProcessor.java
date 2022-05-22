@@ -13,14 +13,14 @@ public class MessageProcessor {
     @Autowired
     ValidatorProcess validator;
 
-    @Autowired
-    DBManager manager;
+    // @Autowired
+    // DBManager manager;
 
     public Response msgProcessor(PostFormURLEncoded message){
         System.out.println(message);
         validator.isMsgValidate(message);
         
-        manager.store();
+        // manager.store();
         return null;
     }
 }

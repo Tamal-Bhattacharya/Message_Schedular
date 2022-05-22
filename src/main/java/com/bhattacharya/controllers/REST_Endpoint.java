@@ -28,7 +28,7 @@ public class REST_Endpoint {
     @RequestMapping(method = RequestMethod.POST, value = "/send", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response sendMessage(PostFormURLEncoded postFormURLEncoded){
         LOGGER.info("Started New Send Message Request");
-
+        
         return messageProcessor.msgProcessor(postFormURLEncoded);
     }
 }
