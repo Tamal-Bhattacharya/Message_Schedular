@@ -6,7 +6,9 @@ public class PostFormURLEncoded {
     private String msg;
     private String time;
     private String sendTo;
+    private int Account_ID;
 
+    
     public PostFormURLEncoded() {
     }
 
@@ -48,11 +50,21 @@ public class PostFormURLEncoded {
     public void setSendTo(String sendTo) {
         this.sendTo = sendTo;
     }
+    public int getAccount_ID() {
+        return Account_ID;
+    }
+    
+    public void setAccount_ID(int account_ID) {
+        Account_ID = account_ID;
+    }
+
     @Override
     public String toString() {
-        return "PostFormURLEncoded [msg=" + msg + ", password=" + password + ", sendTo=" + sendTo + ", time=" + time
-                + ", userName=" + userName + "]";
+        return "PostFormURLEncoded [Account_ID=" + Account_ID + ", msg=" + msg + ", password=" + password + ", sendTo="
+                + sendTo + ", time=" + time + ", userName=" + userName + "]";
     }
+
+    
 
     
 }

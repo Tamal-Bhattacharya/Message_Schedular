@@ -1,6 +1,11 @@
 package com.bhattacharya.processors;
 
-import com.bhattacharya.databases.DBManager;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
+import com.bhattacharya.databases.MessageDAO;
+import com.bhattacharya.entities.Message;
 import com.bhattacharya.requests.PostFormURLEncoded;
 import com.bhattacharya.responses.Response;
 
@@ -10,17 +15,70 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageProcessor {
 
+    Exception exception;
+
     @Autowired
     ValidatorProcess validator;
 
-    // @Autowired
-    // DBManager manager;
+    @Autowired
+    AuthenticationProcessor authenticator;
 
-    public Response msgProcessor(PostFormURLEncoded message){
-        System.out.println(message);
-        validator.isMsgValidate(message);
+    @Autowired
+    MessageDAO messageDAO;
+
+    int error_code = -1;
+
+    public Response msgProcessor(PostFormURLEncoded requestMessage){
+        try {
+            test();
+            
+            error_code = authenticator.verifyClient(requestMessage);
+            System.out.println("Authentication Error Code = " + error_code);
+            if (error_code != 0) {
+                throw exception;
+            }
+
+            System.out.println(requestMessage);
+            error_code = validator.isMsgValidate(requestMessage);
+            if (error_code != 0) {
+                throw exception;
+            }
+            Message message = prepareMessage(requestMessage);
+            error_code = storeMessage(message);
+
+        } catch (Exception e) {
+            
+        }
         
         // manager.store();
         return null;
+    }
+
+    private void test() {
+        System.out.println(Arrays.toString(messageDAO.retrieveScheduledMessages().toArray()));
+    }
+
+    private int storeMessage(Message message) {
+        try {
+            int r = messageDAO.insert(message);
+            System.out.println("r = " + r);
+            if(r == 0){
+                throw exception;
+            }
+        } catch (Exception e) {
+            //TODO: handle exception
+            return 400;
+        }
+        return 0;
+    }
+
+    private Message prepareMessage(PostFormURLEncoded requestMessage){
+        Message message = new Message();
+        message.setAccount_ID(requestMessage.getAccount_ID());
+        message.setMsg(requestMessage.getMsg());
+        message.setSend_To(requestMessage.getSendTo());
+        message.setTimestamp(Timestamp.valueOf(LocalDateTime.parse(requestMessage.getTime().replace(" ", "T"))));
+        message.setStatus(0);
+        return message;
     }
 }

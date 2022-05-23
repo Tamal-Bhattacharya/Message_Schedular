@@ -1,6 +1,6 @@
 package com.bhattacharya.entities;
 
-public class Account_Credential {
+public class Account_Credential extends Entity{
     private int Account_ID;
     private String userName;
     private String password;
@@ -24,5 +24,10 @@ public class Account_Credential {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "Account_Credential [Account_ID=" + Account_ID + ", password=" + password + ", userName=" + userName
+                + "]";
+    }
     
 }

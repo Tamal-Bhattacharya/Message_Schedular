@@ -6,6 +6,10 @@ public class ErrorCodes {
 
     public static final String WORNG_ERROR_CODE = "Internal Error";
 
+    public static final String SCHEDULED = "Scheduled";
+
+    public static final String INTERNAL_ERROR = "Internal Error";
+
     public static final String INVALID_USERNAME = "Invalid Username";
 
     public static final String INVALID_PASSWORD = "Invalid Password";
@@ -21,6 +25,12 @@ public class ErrorCodes {
     public static String codeToString(int errorCode) {
         String value;
         switch (errorCode) {
+            case 0:
+                value = SCHEDULED;
+                break;
+            case 400:
+                value = INTERNAL_ERROR;
+                break;
             case 411:
                 value = INVALID_USERNAME;
                 break;

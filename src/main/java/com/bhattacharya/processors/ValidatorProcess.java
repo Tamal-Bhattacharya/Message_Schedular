@@ -1,7 +1,6 @@
 package com.bhattacharya.processors;
 
 import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 import com.bhattacharya.requests.PostFormURLEncoded;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -15,36 +14,27 @@ public class ValidatorProcess {
 
 	private Exception Exception;
 
-	public boolean isMsgValidate(PostFormURLEncoded message) {
-		if (message.getUserName().isEmpty()) {
-			return false;
-		}
-
-		if (!message.getPassword().isEmpty()) {
-			if (!Pattern.matches("[a-zA-Z@._0-9]{5,32}", message.getPassword())) {
-				return false;
-			}
-		} else {
-			return false;
-		}
+	public int isMsgValidate(PostFormURLEncoded message) {
 
 		if (message.getMsg().isEmpty()) {
-			return false;
+			return 413;
 		}
 
 		if (!message.getTime().isEmpty()) {
-			if (!isTimeValid(message.getTime())) {
-				return false;
+			if (message.equals("now")) {
+			}
+			else if (!isTimeValid(message.getTime())) {
+				return 414;
 			}
 		} else {
-			return false;
+			return 414;
 		}
 
 		if (!phoneNumberUtil.isPossibleNumber(message.getSendTo(),"IN")) {
-			return false;
+			return 415;
 		}
 
-		return true;
+		return 0;
 	}
 
 	private boolean isTimeValid(String time) {

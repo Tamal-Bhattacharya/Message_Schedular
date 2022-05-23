@@ -2,7 +2,7 @@ package com.bhattacharya.entities;
 
 import java.sql.Timestamp;
 
-public class Message {
+public class Message extends Entity {
 	private int Message_ID;
 	private int Account_ID;
 	private String msg;
