@@ -2,6 +2,7 @@ package com.bhattacharya.databases;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.bhattacharya.entities.Entity;
@@ -42,9 +43,13 @@ public class MessageDAO implements DBManager{
     }
 
     public List<Message> retrieveScheduledMessages() {
-        String querry = "select * from Message where Scheduled_Time <= ? and status = 0";
+        LocalDateTime localDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = localDateTime.format(formatter);
+        System.out.println(formatDateTime);
+        String querry = "select * from Message where Scheduled_Time <= '" + Timestamp.valueOf(LocalDateTime.parse(formatDateTime.replace(" ", "T"))).toString().replace(".0", "") +  "' and status = 0";
         RowMapper<Message> mapper = new MessageMapper();
-        List<Message> messages = template.queryForList(querry, Message.class, Timestamp.valueOf(LocalDateTime.now()));
+        List<Message> messages = template.query(querry, mapper);
         return messages;
     }
     

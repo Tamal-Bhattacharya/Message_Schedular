@@ -2,7 +2,6 @@ package com.bhattacharya.processors;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 import com.bhattacharya.databases.MessageDAO;
 import com.bhattacharya.entities.Message;
@@ -24,13 +23,17 @@ public class MessageProcessor {
     AuthenticationProcessor authenticator;
 
     @Autowired
+    ResponseProcessor responseProcessor;
+
+    @Autowired
     MessageDAO messageDAO;
 
     int error_code = -1;
 
     public Response msgProcessor(PostFormURLEncoded requestMessage){
+        // test();
+        Message message = null;
         try {
-            test();
             
             error_code = authenticator.verifyClient(requestMessage);
             System.out.println("Authentication Error Code = " + error_code);
@@ -43,20 +46,24 @@ public class MessageProcessor {
             if (error_code != 0) {
                 throw exception;
             }
-            Message message = prepareMessage(requestMessage);
+            message = prepareMessage(requestMessage);
             error_code = storeMessage(message);
 
         } catch (Exception e) {
-            
+            if (error_code < 200) {
+                return responseProcessor.responseGenerator(error_code, message);
+            } else {
+                return responseProcessor.responseGenerator(error_code, requestMessage);
+            }
         }
         
         // manager.store();
-        return null;
+        return responseProcessor.responseGenerator(error_code, requestMessage);
     }
 
-    private void test() {
-        System.out.println(Arrays.toString(messageDAO.retrieveScheduledMessages().toArray()));
-    }
+    // private void test() {
+    //     messageDAO.retrieveScheduledMessages().forEach(System.out::println);
+    // }
 
     private int storeMessage(Message message) {
         try {

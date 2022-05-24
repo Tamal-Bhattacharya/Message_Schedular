@@ -6,14 +6,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MSGErrorResponse extends Response {
     private String error;
 
-    public MSGErrorResponse(String msgID, long sendTo, String status, String msg, String error) {
-        super(msgID, sendTo, status, msg);
+    public MSGErrorResponse(String msgID, String sendTo, String msg, String scheduled_Time, String status,
+            String error) {
+        super(msgID, sendTo, msg, scheduled_Time, status);
         this.error = error;
     }
 
     @Override
     public String toString() {
-        return "ErrorResponse [error=" + error + "]";
+        return "MSGErrorResponse [error=" + error + "]";
     }
 
 }

@@ -47,5 +47,11 @@ public class Message extends Entity {
 		Status = status;
 	}
 	
+	@Override
+	public String toString() {
+		return "Message [Account_ID=" + Account_ID + ", Message_ID=" + Message_ID + ", Send_To=" + Send_To + ", Status="
+				+ Status + ", msg=" + msg + ", timestamp=" + timestamp + "]";
+	}
+	
 	
 }
