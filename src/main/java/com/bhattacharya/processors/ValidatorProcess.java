@@ -21,7 +21,7 @@ public class ValidatorProcess {
 		}
 
 		if (!message.getTime().isEmpty()) {
-			if (message.equals("now")) {
+			if (message.getTime().equals("now")) {
 			}
 			else if (!isTimeValid(message.getTime())) {
 				return 414;

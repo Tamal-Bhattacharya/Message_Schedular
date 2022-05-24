@@ -8,6 +8,10 @@ public class ErrorCodes {
 
     public static final String SCHEDULED = "Scheduled";
 
+    public static final String DISPATCHED = "Dispatched";
+
+    public static final String SEND_NOW = "Send Now";
+
     public static final String INTERNAL_ERROR = "Internal Error";
 
     public static final String INVALID_USERNAME = "Invalid Username";
@@ -27,6 +31,12 @@ public class ErrorCodes {
         switch (errorCode) {
             case 0:
                 value = SCHEDULED;
+                break;
+            case 1:
+                value = DISPATCHED;
+                break;
+            case 5:
+                value = SEND_NOW;
                 break;
             case 400:
                 value = INTERNAL_ERROR;

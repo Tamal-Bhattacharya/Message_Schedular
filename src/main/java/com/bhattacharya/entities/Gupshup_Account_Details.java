@@ -1,6 +1,6 @@
 package com.bhattacharya.entities;
 
-public class Gupshup_Account_Details {
+public class Gupshup_Account_Details extends Entity {
     private int Account_ID;
     private String Gupshup_API_Key;
     
