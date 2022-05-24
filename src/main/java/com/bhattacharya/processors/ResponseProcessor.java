@@ -13,7 +13,8 @@ public class ResponseProcessor {
 
     public Response responseGenerator(int errorCode, PostFormURLEncoded request){
         String error = ErrorCodes.codeToString(errorCode);
-        Response response = new MSGErrorResponse("N/A", request.getSendTo(), request.getMsg(), request.getTime(), "ERROR", error);
+        MSGErrorResponse response = new MSGErrorResponse("N/A", request.getSendTo(), request.getMsg(), request.getTime(), "ERROR", error);
+        System.out.println(response);
         return response;
     }
 

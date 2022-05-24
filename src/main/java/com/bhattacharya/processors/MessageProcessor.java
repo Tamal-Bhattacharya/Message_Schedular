@@ -58,7 +58,7 @@ public class MessageProcessor {
         }
         
         // manager.store();
-        return responseProcessor.responseGenerator(error_code, requestMessage);
+        return responseProcessor.responseGenerator(error_code, message);
     }
 
     // private void test() {

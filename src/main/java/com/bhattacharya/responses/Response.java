@@ -1,11 +1,12 @@
 package com.bhattacharya.responses;
 
 public class Response {
-    private String msgID;
-    private String sendTo;
-    private String msg;
-    private String scheduled_Time;
-    private String status;
+    public String msgID;
+    public String sendTo;
+    public String msg;
+    public String scheduled_Time;
+    public String status;
+    // protected String error;
 
     public Response(String msgID, String sendTo, String msg, String scheduled_Time, String status) {
         this.msgID = msgID;
