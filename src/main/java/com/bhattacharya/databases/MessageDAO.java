@@ -53,4 +53,10 @@ public class MessageDAO implements DBManager{
         return messages;
     }
     
+    public int retrieveMessageID(Entity entity){
+        String query = "select * from Messages where Scheduled_Time = '" + ((Message) entity).getTimestamp() + "' and Account_ID = " + ((Message) entity).getAccount_ID();
+        RowMapper<Message> mapper = new MessageMapper();
+        Message message = template.queryForObject(query, mapper);
+        return message.getAccount_ID();
+    }
 }

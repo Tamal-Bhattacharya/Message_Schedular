@@ -21,7 +21,7 @@ public class ResponseProcessor {
     public Response responseGenerator(int errorCode, Message message){
         String error = ErrorCodes.codeToString(errorCode);
         Response response = null;
-        if (errorCode == 0) {
+        if (errorCode <= 10) {
             response = new Response(Integer.toString(message.getMessage_ID()), message.getSend_To(), message.getMsg(), message.getTimestamp().toString(), error);
         }
         return response;

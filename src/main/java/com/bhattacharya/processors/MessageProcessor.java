@@ -55,7 +55,7 @@ public class MessageProcessor {
             error_code = storeMessage(message);
             if (message.getStatus() == 5) {
                 sender.send(message);
-                return responseProcessor.responseGenerator(error_code, message);
+                return responseProcessor.responseGenerator(message.getStatus(), message);
             }
 
         } catch (Exception e) {
@@ -77,6 +77,7 @@ public class MessageProcessor {
     private int storeMessage(Message message) {
         try {
             int r = messageDAO.insert(message);
+            message.setMessage_ID(messageDAO.retrieveMessageID(message));
             System.out.println("r = " + r);
             if(r == 0){
                 throw exception;

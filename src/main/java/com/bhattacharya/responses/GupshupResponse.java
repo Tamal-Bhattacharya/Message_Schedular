@@ -1,6 +1,8 @@
 package com.bhattacharya.responses;
 
-public class GupshupResponse {
+import java.io.Serializable;
+
+public class GupshupResponse implements Serializable {
     private String status;
     private String messageID;
     

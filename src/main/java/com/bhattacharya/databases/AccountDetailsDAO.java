@@ -34,10 +34,10 @@ public class AccountDetailsDAO implements DBManager{
     }
 
     public String retrieve(int Account_ID) {
-        String querry = "select * from Account_Credential where Account_ID = ?";
+        String querry = "select * from Gupshup_Account_Details where Account_ID = ?";
         RowMapper<Gupshup_Account_Details> rowMapper = new AccountDetailsMapper();
         Gupshup_Account_Details credential = this.template.queryForObject(querry, rowMapper, Account_ID);
-        System.out.println(credential);
+        System.out.println(credential.getGupshup_API_Key());
         return credential.getGupshup_API_Key();
     }
     

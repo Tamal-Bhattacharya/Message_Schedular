@@ -49,6 +49,7 @@ public class VendorSender {
         // HttpHeaders headers = new HttpHeaders();
         // headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         String apikey = accountDetails.retrieve(message.getAccount_ID());
+        System.out.println(apikey);
         // headers.add("apikey", apikey);
 
         // Map<String, Object> body = new HashMap<>();
@@ -69,14 +70,23 @@ public class VendorSender {
         // }
         
         String mString = URLEncoder.encode("{\"type\":\"text\",\"text\":\""+message.getMsg()+"\"}", StandardCharsets.UTF_8) ;
-
+        System.out.println("URL ENCODED MSG = " + mString);
         
 
         HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(url)).header("Accept", "application/json").header("apikey", apikey).header("Content-Type", "application/x-www-form-urlencoded").method(
             "POST", HttpRequest.BodyPublishers.ofString("message="+mString+"&src.name=DRSTRA&channel=whatsapp&source=917834811114&destination="+message.getSend_To())).build();
+
+            System.out.println("Test = " + "message="+mString+"&src.name=DRSTRA&channel=whatsapp&source=917834811114&destination="+message.getSend_To());
         try {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+            if (response.statusCode() == HttpStatus.ACCEPTED.value()) {
+                message.setStatus(1);
+                messageDAO.update(message);
+            } else {
+                message.setStatus(400);
+            }
         } catch (IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
