@@ -83,14 +83,15 @@ public class VendorSender {
             System.out.println(response.body());
             if (response.statusCode() == HttpStatus.ACCEPTED.value()) {
                 message.setStatus(1);
-                messageDAO.update(message);
+                int r = messageDAO.update(message);
             } else {
                 message.setStatus(400);
+                messageDAO.update(message);
             }
         } catch (IOException | InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        messageDAO.update(message);
+        int r = messageDAO.update(message);
     }
 }

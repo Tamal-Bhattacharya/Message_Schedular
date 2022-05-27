@@ -67,7 +67,7 @@ public class MessageProcessor {
         }
         
         // manager.store();
-        return responseProcessor.responseGenerator(error_code, message);
+        return responseProcessor.responseGenerator(message.getStatus(), message);
     }
 
     // private void test() {
