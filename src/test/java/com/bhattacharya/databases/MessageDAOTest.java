@@ -5,16 +5,15 @@ import static org.junit.Assert.assertEquals;
 import com.bhattacharya.entities.Message;
 
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.ContextConfiguration;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ContextConfiguration
 public class MessageDAOTest implements ApplicationContextAware{
 
     @Autowired

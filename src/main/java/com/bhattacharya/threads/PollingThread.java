@@ -24,7 +24,7 @@ public class PollingThread implements Runnable{
     public void run() {
         while (true){
             try {
-                Thread.sleep(30000);
+                Thread.sleep(3000);
                 sender.sendBatch(messageDAO.retrieveScheduledMessages());
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
