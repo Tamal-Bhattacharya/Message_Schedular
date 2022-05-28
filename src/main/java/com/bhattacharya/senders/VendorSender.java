@@ -7,24 +7,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.bhattacharya.databases.AccountDetailsDAO;
 import com.bhattacharya.databases.MessageDAO;
 import com.bhattacharya.entities.Message;
-import com.bhattacharya.responses.GupshupResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class VendorSender {
@@ -35,8 +26,6 @@ public class VendorSender {
     @Autowired
     MessageDAO messageDAO;
 
-    private final RestTemplate template = new RestTemplateBuilder().build();
-
     public void sendBatch(List<Message> messages){
         for (Message message : messages) {
             send(message);
@@ -46,29 +35,8 @@ public class VendorSender {
 
     public void send(Message message){
         String url = "https://api.gupshup.io/sm/api/v1/msg";
-        // HttpHeaders headers = new HttpHeaders();
-        // headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         String apikey = accountDetails.retrieve(message.getAccount_ID());
         System.out.println(apikey);
-        // headers.add("apikey", apikey);
-
-        // Map<String, Object> body = new HashMap<>();
-        // body.put("channel", "whatsapp");
-        // body.put("source", 917834811114l);
-        // body.put("destination", Long.parseLong(message.getSend_To()));
-        // body.put("message", "{\"type\":\"text\",\"text\":\""+message.getMsg()+"\"}");
-        // body.put("src.name", "DRSTRA");
-
-        // HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-        
-        // GupshupResponse responseEntity = template.postForObject(url, entity, GupshupResponse.class);
-
-        // if (responseEntity.getStatus() == "submitted") {
-        //     message.setStatus(1);
-        // } else {
-        //     message.setStatus(400);
-        // }
-        
         String mString = URLEncoder.encode("{\"type\":\"text\",\"text\":\""+message.getMsg()+"\"}", StandardCharsets.UTF_8) ;
         System.out.println("URL ENCODED MSG = " + mString);
         
@@ -83,15 +51,13 @@ public class VendorSender {
             System.out.println(response.body());
             if (response.statusCode() == HttpStatus.ACCEPTED.value()) {
                 message.setStatus(1);
-                int r = messageDAO.update(message);
             } else {
                 message.setStatus(400);
-                messageDAO.update(message);
             }
         } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         int r = messageDAO.update(message);
+        System.out.println("r = " + r);
     }
 }

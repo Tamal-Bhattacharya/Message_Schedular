@@ -3,7 +3,6 @@ package com.bhattacharya.threads;
 import com.bhattacharya.databases.MessageDAO;
 import com.bhattacharya.senders.VendorSender;
 
-import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
